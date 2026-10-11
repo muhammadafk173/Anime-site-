@@ -1,0 +1,35 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper: checks if user has server-signed admin claim
+    function isAdmin() {
+      return request.auth != null && request.auth.token.admin == true;
+    }
+
+    // Helper: checks if the document is published
+    function isPublished() {
+      return resource.data.status == 'published';
+    }
+
+    // Anime Collection
+    match /anime/{animeId} {
+      // Public / Android App can read published anime only. Admins can read drafts too.
+      allow read: if isPublished() || isAdmin();
+      // Only authenticated admins can write
+      allow write: if isAdmin();
+    }
+
+    // Seasons Collection
+    match /seasons/{seasonId} {
+      allow read: if isPublished() || isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // Episodes Collection
+    match /episodes/{episodeId} {
+      allow read: if isPublished() || isAdmin();
+      allow write: if isAdmin();
+    }
+  }
+}

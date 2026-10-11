@@ -1,0 +1,6 @@
+{
+  "name": "AnimeVerse",
+  "description": "Stream anime with trending series, local favorites, watch history, and video player.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
